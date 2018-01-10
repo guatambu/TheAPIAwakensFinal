@@ -13,6 +13,9 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
     // Star Wars API Client instance
     let client = StarWarsAPIClient()
     
+    // find Big and Small Instance for helper functions
+    let findBigAndSmall = FindBigAndSmall()
+    
     // Metric/British Units Conversion Tool
     let metricBritishConversion = MetricBritishConversion()
     
@@ -20,6 +23,8 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
     let pickerViewDataSource = CharacterPickerViewDataSource()
     var pickerViewOptionItems = [String]()
     
+    var smallestCharacterString = ""
+    var largestCharacterString = ""
     
     
     // UI IBOutlets
@@ -120,53 +125,21 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
         hair_color.text = characterViewModel.hair_color
     }
     
-    // finding smallest and largest vehicles 1/2
-    
-    func currentCharacterHeightDictionaryMaker() -> [String: Double] {
-        var currentCharacterHeights = [String: Double]()
-        let characters = pickerViewDataSource.data
-        for character in characters {
-            guard let characterHeightDouble = Double(character.height) else {
-                print("found nil value while trying to make the currentCharacterHeights in the Dictionary maker function")
-                return currentCharacterHeights
-            }
-            currentCharacterHeights.updateValue(characterHeightDouble, forKey: character.name)
-        }
-        return currentCharacterHeights
-    }
-    
-    // finding smallest and largest vehicles 2/2
-    func findSmallestAndLargest() {
-        let currentCharacterHeights = currentCharacterHeightDictionaryMaker()
-        let minimum = currentCharacterHeights.min { a, b in a.value < b.value }
-        let maximum = currentCharacterHeights.max { a, b in a.value < b.value }
-        guard let smallest = minimum else {
-            print("couldn't find shortest character")
-            return
-        }
-        guard let largest = maximum else {
-            print("couldn't find tallest character")
-            return
-        }
-        
-        smallestCharacter.text = String(smallest.key)
-        largestCharacter.text = String(largest.key)
-    }
+ 
 }
 
 extension CharactersViewController {
-        func updatePickerDataSource(forPickerView pickerView: UIPickerView) {
-            client.getCharacters(with: SWAPI.people(page: nil)) { people, error in
-                self.pickerViewDataSource.characterDataUpdate(with: self.client.allDownloadedPeople)
-                self.charactersPickerView.reloadAllComponents()
-            // to select the first option in the UIPickerView as the "default" info to display in app
-                self.pickerView(self.charactersPickerView, didSelectRow: 0, inComponent: 0)
-                let miDict = self.currentCharacterHeightDictionaryMaker()
-                self.findSmallestAndLargest()
+    func updatePickerDataSource(forPickerView pickerView: UIPickerView) {
+        client.getCharacters(with: SWAPI.people(page: nil)) { people, error in
+            self.pickerViewDataSource.characterDataUpdate(with: self.client.allDownloadedPeople)
+            self.charactersPickerView.reloadAllComponents()
+        // to select the first option in the UIPickerView as the "default" info to display in app
+            self.pickerView(self.charactersPickerView, didSelectRow: 0, inComponent: 0)
+            self.smallestCharacter.text = self.client.findBigAndSmall.smallestOne
+            self.largestCharacter.text = self.client.findBigAndSmall.largestOne
         }
     }
- }
-
+}
 
 
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Starship {
+class Starship: StarWarsEntity {
     // Length
     var length: String
     // Pilots

@@ -13,6 +13,9 @@ class StarshipsViewController: UIViewController, UIPickerViewDelegate {
     // Star Wars API Client instance
     let client = StarWarsAPIClient()
     
+    // find Big and Small Instance for helper functions
+    let findBigAndSmall = FindBigAndSmall()
+    
     // Metric/British Units Conversion Tool
     let metricBritishConversion = MetricBritishConversion()
     
@@ -218,6 +221,7 @@ class StarshipsViewController: UIViewController, UIPickerViewDelegate {
     // finding smallest and largest vehicles 2/2
     func findSmallestAndLargest() {
         let currentStarshipLengths = currentStarshipLengthDictionaryMaker()
+        
         let minimum = currentStarshipLengths.min { a, b in a.value < b.value }
         let maximum = currentStarshipLengths.max { a, b in a.value < b.value }
         guard let smallest = minimum else {
@@ -232,6 +236,7 @@ class StarshipsViewController: UIViewController, UIPickerViewDelegate {
         smallestStarship.text = String(smallest.key)
         largestStarship.text = String(largest.key)
     }
+    
 }
 
 
@@ -242,12 +247,11 @@ extension StarshipsViewController {
             self.starshipsPickerView.reloadAllComponents()
             // to select the first option in the UIPickerView as the "default" info to display in app
             self.pickerView(self.starshipsPickerView, didSelectRow: 0, inComponent: 0)
-            let miDict = self.currentStarshipLengthDictionaryMaker()
-            self.findSmallestAndLargest()
+            self.smallestStarship.text = self.client.findBigAndSmall.smallestOne
+            self.largestStarship.text = self.client.findBigAndSmall.largestOne
         }
     }
 }
-
 
 
 

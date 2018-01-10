@@ -11,6 +11,8 @@ import Foundation
 class StarWarsAPIClient {
     
     let downloader = JSONDownloader()
+    let findBigAndSmall = FindBigAndSmall()
+    
     let session = URLSession.shared
     
     var charactersEndpoint = SWAPI.people(page: nil)
@@ -23,22 +25,29 @@ class StarWarsAPIClient {
     var allStarshipsJSON = [String: Any]()
     var allPeopleJSON = [String: Any]()
     
-    var allDownloadedVehicles = [Vehicle]()
-    var allDownloadedStarships = [Starship]()
     var allDownloadedPeople = [Character]()
+    var allDownloadedStarships = [Starship]()
+    var allDownloadedVehicles = [Vehicle]()
+    
+    var allDownloadedPeopleDictionary: [String: Double] = [:]
+    var allDownloadedStarshipsDictionary: [String: Double] = [:]
+    var allDownloadedVehiclesDictionary: [String: Double] = [:]
+
     
     typealias VehiclesCompletionHandler = ([Vehicle], Errors_API_Awakens?) -> Void
     typealias StarshipsCompletionHandler = ([Starship], Errors_API_Awakens?) -> Void
     typealias CharactersCompletionHandler = ([Character], Errors_API_Awakens?) -> Void
-    
-    
+ 
     
     func getCharacters(with starWarsEntityURLPath: Endpoint, completionHandler completion: @escaping CharactersCompletionHandler) {
         let task = downloader.jsonTask(with: charactersEndpoint.request) { json, error in
             DispatchQueue.main.async {
                 guard let json = json else {
-                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 110?"))
-                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 110?"))
+                    self.findBigAndSmall.currentLengthDictionaryMaker(current: self.allDownloadedPeople)
+                    self.findBigAndSmall.findLargestAndSmallest(current: self.findBigAndSmall.myDictionary)
+                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
+                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
+                    
                     return
                 }
                 self.allPeopleJSON = json
@@ -63,7 +72,7 @@ class StarWarsAPIClient {
                     self.allPeopleJSON = [:]
                 }
                 self.allDownloadedPeople = self.allDownloadedPeople.sorted(by: {$1.name > $0.name})
-                completion(sortedPeople, nil)
+                completion(self.allDownloadedPeople, nil)
             }
         }
         task.resume()
@@ -75,12 +84,13 @@ class StarWarsAPIClient {
         let task = downloader.jsonTask(with: starshipsEndpoint.request) { json, error in
             DispatchQueue.main.async {
                 guard let json = json else {
-                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 72?"))
-                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 72?"))
+                    self.findBigAndSmall.currentLengthDictionaryMaker(current: self.allDownloadedStarships)
+                    self.findBigAndSmall.findLargestAndSmallest(current: self.findBigAndSmall.myDictionary)
+                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 87?"))
+                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 87?"))
                     return
                 }
                 self.allStarshipsJSON = json
-                /******/print(self.allStarshipsJSON)/****/
                 guard let results = self.allStarshipsJSON["results"] as? [[String: Any]] else {
                     completion([], .jsonParsingFailure(message: "failed attempt to parse JSON data - JSON data does not contain 'results'"))
                     print(Errors_API_Awakens.jsonParsingFailure(message: "failed attempt to parse JSON data - JSON data does not contain 'results'"))
@@ -113,8 +123,10 @@ class StarWarsAPIClient {
         let task = downloader.jsonTask(with: vehiclesEndpoint.request) { json, error in
             DispatchQueue.main.async {
                 guard let json = json else {
-                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 29?"))
-                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 29?"))
+                    self.findBigAndSmall.currentLengthDictionaryMaker(current: self.allDownloadedVehicles)
+                    self.findBigAndSmall.findLargestAndSmallest(current: self.findBigAndSmall.myDictionary)
+                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 124?"))
+                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 124?"))
                     return
                 }
                 self.allVehiclesJSON = json

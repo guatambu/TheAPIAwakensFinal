@@ -30,10 +30,14 @@ struct CharacterViewModel {
         self.name = model.name
         self.birth_year = model.birth_year
         self.homeworld = model.homeworld
-        guard let height_Double = Double(model.height) else {
-            throw Errors_API_Awakens.stringNotDouble(message: "the value of this property is a String not a Double")
+        do {
+            guard let heightInt = Int(model.length) else {
+                throw Errors_API_Awakens.stringNotInteger(message: "the value of this property is a String not an Integer")
+            }
+            self.height = "\(heightInt)"
+        } catch Errors_API_Awakens.stringNotInteger {
+            self.height = model.length
         }
-        self.height = "\(height_Double) m"
         self.eye_color = model.eye_color
         self.hair_color = model.hair_color
     }

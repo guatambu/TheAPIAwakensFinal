@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Character {
+class Character: StarWarsEntity {
     // Name
     var name: String
     // Height
-    var height: String
+    var length: String
     // Mass
     var mass: String
     // Hair Color
@@ -45,7 +45,7 @@ class Character {
     init?(json: [String: Any]) {
         struct Key {
             static let name = "name"
-            static let height = "height"
+            static let length = "height"
             static let mass = "mass"
             static let hair_color = "hair_color"
             static let skin_color = "skin_color"
@@ -62,7 +62,7 @@ class Character {
             static let url = "url"
         }
         guard let nameValue = json[Key.name] as? String,
-            let heightValue = json[Key.height] as? String,
+            let lengthValue = json[Key.length] as? String,
             let massValue = json[Key.mass] as? String,
             let hairColorValue = json[Key.hair_color] as? String,
             let skinColorValue = json[Key.skin_color] as? String,
@@ -80,7 +80,7 @@ class Character {
             else { return nil }
         
         self.name = nameValue
-        self.height = heightValue
+        self.length = lengthValue
         self.mass = massValue
         self.hair_color = hairColorValue
         self.skin_color = skinColorValue

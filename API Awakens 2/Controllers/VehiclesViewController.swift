@@ -13,12 +13,18 @@ class VehiclesViewController: UIViewController, UIPickerViewDelegate {
     // Star Wars API Client instance
     let client = StarWarsAPIClient()
     
+    // find Big and Small Instance for helper functions
+    let findBigAndSmall = FindBigAndSmall()
+    
     // Metric/British Units Conversion Tool
     let metricBritishConversion = MetricBritishConversion()
     
     // UIPickerView
     let pickerViewDataSource = VehiclePickerViewDataSource()
     var pickerViewOptionItems = [String]()
+    
+    var smallestVehicleString = ""
+    var largestVehicleString = ""
     
     // UI IBOutlets
     @IBOutlet weak var vehiclesPickerView: UIPickerView!
@@ -213,22 +219,29 @@ class VehiclesViewController: UIViewController, UIPickerViewDelegate {
     }
     
     // finding smallest and largest vehicles 2/2
-    func findSmallestAndLargest() {
+    func findSmallestAndLargest() -> (min: String, max: String){
         let currentVehicleLengths = currentVehicleLengthDictionaryMaker()
         
         let minimum = currentVehicleLengths.min { a, b in a.value < b.value }
         let maximum = currentVehicleLengths.max { a, b in a.value < b.value }
         guard let smallest = minimum else {
             print("couldn't find smallest vehicle")
-            return
+            return (minimum!.key, maximum!.key)
         }
         guard let largest = maximum else {
             print("couldn't find largest vehicle")
-            return
+            return (minimum!.key, maximum!.key)
         }
+        smallestVehicleString = smallest.key
+        largestVehicleString = largest.key
+        /*
+        var maxAndMin = client.findLargestAndSmallest(current: pickerViewDataSource.data as! [StarWarsEntity])
         
-        smallestVehicle.text = String(smallest.key)
-        largestVehicle.text = String(largest.key)
+        
+        smallestVehicle.text = maxAndMin.min //smallest.key
+        largestVehicle.text = maxAndMin.max //largest.key
+        */
+        return (smallestVehicleString, largestVehicleString)
     }
 }
 
@@ -239,7 +252,8 @@ extension VehiclesViewController {
             self.vehiclesPickerView.reloadAllComponents()
             // to select the first option in the UIPickerView as the "default" info to display in app
             self.pickerView(self.vehiclesPickerView, didSelectRow: 0, inComponent: 0)
-            self.findSmallestAndLargest()            
+            self.smallestVehicle.text = self.client.findBigAndSmall.smallestOne
+            self.largestVehicle.text = self.client.findBigAndSmall.largestOne
         }
     }
 }

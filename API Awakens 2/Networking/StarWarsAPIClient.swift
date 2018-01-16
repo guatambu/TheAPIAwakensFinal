@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class StarWarsAPIClient {
     
     let downloader = JSONDownloader()
@@ -24,6 +25,7 @@ class StarWarsAPIClient {
     var allVehiclesJSON = [String: Any]()
     var allStarshipsJSON = [String: Any]()
     var allPeopleJSON = [String: Any]()
+    var homeplanetJSON = [String: Any]()
     
     var allDownloadedPeople = [Character]()
     var allDownloadedStarships = [Starship]()
@@ -32,6 +34,8 @@ class StarWarsAPIClient {
     var allDownloadedPeopleDictionary: [String: Double] = [:]
     var allDownloadedStarshipsDictionary: [String: Double] = [:]
     var allDownloadedVehiclesDictionary: [String: Double] = [:]
+    
+    var homeplanetString = ""
 
     
     typealias VehiclesCompletionHandler = ([Vehicle], Errors_API_Awakens?) -> Void
@@ -45,6 +49,7 @@ class StarWarsAPIClient {
                 guard let json = json else {
                     self.findBigAndSmall.currentLengthDictionaryMaker(current: self.allDownloadedPeople)
                     self.findBigAndSmall.findLargestAndSmallest(current: self.findBigAndSmall.myDictionary)
+                    
                     completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
                     print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
                     
@@ -77,6 +82,31 @@ class StarWarsAPIClient {
         }
         task.resume()
     }
+    
+    
+    func getCharacterHomePlanet(with starWarsEntityURLString: String, completionHandler completion: @escaping CharactersCompletionHandler) {
+        let stringToEndpoint = StringToEndpoint(urlString: starWarsEntityURLString)
+        let task = downloader.jsonTask(with: stringToEndpoint!.endpoint) { json, error in
+            DispatchQueue.main.async {
+                guard let json = json else {
+                    completion([], Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
+                    print(Errors_API_Awakens.noJSONData(message: "no JSON Data - failed at StarWarsAPIClient.swift line 46?"))
+                    
+                    return
+                }
+                self.homeplanetJSON = json
+                guard let homeplanetName = self.homeplanetJSON["name"] as? String else {
+                    completion([], .jsonParsingFailure(message: "failed attempt to parse JSON data - JSON data does not contain 'results'"))
+                    print(Errors_API_Awakens.jsonParsingFailure(message: "failed attempt to parse JSON data - JSON data does not contain 'results'"))
+                    return
+                }
+                self.homeplanetString = homeplanetName
+                completion(self.allDownloadedPeople, nil)
+            }
+        }
+        task.resume()
+    }
+    
     
     
     

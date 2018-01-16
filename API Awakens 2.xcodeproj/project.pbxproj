@@ -36,6 +36,8 @@
 		FA56494A2000425D008FAA20 /* VehiclePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5649492000425D008FAA20 /* VehiclePickerViewDataSource.swift */; };
 		FA56494C200565D6008FAA20 /* StarWarsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56494B200565D6008FAA20 /* StarWarsEntity.swift */; };
 		FA56494F2006C0FD008FAA20 /* FindBigAndSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56494E2006C0FD008FAA20 /* FindBigAndSmall.swift */; };
+		FA564953200836DD008FAA20 /* ActivityIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA564952200836DD008FAA20 /* ActivityIndicators.swift */; };
+		FA564955200977BB008FAA20 /* StringToEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA564954200977BB008FAA20 /* StringToEndpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +72,8 @@
 		FA5649492000425D008FAA20 /* VehiclePickerViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePickerViewDataSource.swift; sourceTree = "<group>"; };
 		FA56494B200565D6008FAA20 /* StarWarsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsEntity.swift; sourceTree = "<group>"; };
 		FA56494E2006C0FD008FAA20 /* FindBigAndSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBigAndSmall.swift; sourceTree = "<group>"; };
+		FA564952200836DD008FAA20 /* ActivityIndicators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicators.swift; sourceTree = "<group>"; };
+		FA564954200977BB008FAA20 /* StringToEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringToEndpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +181,7 @@
 			children = (
 				FA504FE11FFC401F000C3655 /* StarWarsURLPaths.swift */,
 				FA504FDF1FFC400C000C3655 /* Endpoint.swift */,
+				FA564954200977BB008FAA20 /* StringToEndpoint.swift */,
 			);
 			path = Endpoint;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 				FA504FE91FFC4094000C3655 /* DoublesOnlyGenerator.swift */,
 				FA504FE51FFC4063000C3655 /* CreditsUSDollarsConversion.swift */,
 				FA56494E2006C0FD008FAA20 /* FindBigAndSmall.swift */,
+				FA564952200836DD008FAA20 /* ActivityIndicators.swift */,
 			);
 			path = "helper functions";
 			sourceTree = "<group>";
@@ -283,10 +289,12 @@
 				FA504FE21FFC401F000C3655 /* StarWarsURLPaths.swift in Sources */,
 				FA504FAA1FFC3D7F000C3655 /* AppDelegate.swift in Sources */,
 				FA504FD21FFC3F7E000C3655 /* CharacterViewModel.swift in Sources */,
+				FA564953200836DD008FAA20 /* ActivityIndicators.swift in Sources */,
 				FA504FC41FFC3EC5000C3655 /* StarWarsAPIUserRequest.swift in Sources */,
 				FA504FE61FFC4063000C3655 /* CreditsUSDollarsConversion.swift in Sources */,
 				FA504FC21FFC3EA1000C3655 /* CharacterPickerViewDataSource.swift in Sources */,
 				FA504FE01FFC400C000C3655 /* Endpoint.swift in Sources */,
+				FA564955200977BB008FAA20 /* StringToEndpoint.swift in Sources */,
 				FA504FE81FFC4079000C3655 /* MetricBritishUnitsConversion.swift in Sources */,
 				FA56494820004214008FAA20 /* StarshipPickerViewDataSource.swift in Sources */,
 				FA504FCA1FFC3F17000C3655 /* HomeScreenViewController.swift in Sources */,

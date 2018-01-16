@@ -111,46 +111,10 @@ extension SWAPI: Endpoint {
             return result
         }
     }
-    
-    
-    
-    
-    // maybe i need to split up the getting of the json into a function separate from the rest of "getting a vehicle" we see here below
-    
-    /*
-     ex.:
-     var pagedJson = [String: Any]()
-     let session = URLSession.shared
-     
-     func fetchJsonForPage(_ page: Int, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-     let request = /* Construct request for page number */
-     let task = session.dataTask(with: request) { data, response, error in
-     let json = /* Do all the usual stuff to get the json out */
-     
-     let currentPage = json["currentPage"]
-     pagedJson[currentPage] = json
-     
-     let next = json["next"]
-     
-     if next != nil {
-     self.fetchJsonForPage(currentPage + 1, completion: completion)
-     }
-     
-     task.resume()
-     }
-     */
-    
-    
-    /*
-     
-     if json["next"] != nil {
-     let next = json["next"]
-     let nextURL = URL(string: next as! String)
-     let urlRequest = URLRequest(url: nextURL!)
-     self.getVehicles(with: urlRequest, completionHandler: completion)
-     
-     */
+
 }
+
+
 
 
 

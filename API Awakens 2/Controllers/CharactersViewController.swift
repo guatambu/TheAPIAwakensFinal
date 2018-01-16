@@ -28,6 +28,8 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
     
     
     // UI IBOutlets
+    
+    @IBOutlet weak var characterView: UIView!
     @IBOutlet weak var charactersPickerView: UIPickerView!
     @IBOutlet weak var largestCharacter: UILabel!
     @IBOutlet weak var smallestCharacter: UILabel!
@@ -101,6 +103,9 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
             if pickerViewDataSource.data[row].name ==  currentCharacter.name {
                 do {
                     let currentCharacterModel = try CharacterViewModel(model: currentCharacter)
+                    self.client.getCharacterHomePlanet(with: pickerViewDataSource.data[row].homeworld) { planet, error in
+                    self.home_planet.text = self.client.homeplanetString
+                    }
                     displayCharacterInformation(using: currentCharacterModel)
                     print("this is the chosen UIPickerView option: \(currentCharacterModel.name)")
                 } catch Errors_API_Awakens.stringNotInteger {
@@ -119,7 +124,6 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
     func displayCharacterInformation(using characterViewModel: CharacterViewModel) {
         characterName.text = characterViewModel.name
         birth_year.text = characterViewModel.birth_year
-        home_planet.text = characterViewModel.homeworld
         height.text = characterViewModel.height
         eye_color.text = characterViewModel.eye_color
         hair_color.text = characterViewModel.hair_color
@@ -130,6 +134,7 @@ class CharactersViewController: UIViewController, UIPickerViewDelegate {
 
 extension CharactersViewController {
     func updatePickerDataSource(forPickerView pickerView: UIPickerView) {
+        
         client.getCharacters(with: SWAPI.people(page: nil)) { people, error in
             self.pickerViewDataSource.characterDataUpdate(with: self.client.allDownloadedPeople)
             self.charactersPickerView.reloadAllComponents()

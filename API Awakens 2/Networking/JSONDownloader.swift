@@ -10,10 +10,12 @@ import Foundation
 
 class JSONDownloader {
     
-    let session: URLSession
+    let urlRequestSession: URLSession
+    let stringURLSession: URLSession
     
     init(configuration: URLSessionConfiguration) {
-        self.session = URLSession(configuration: configuration)
+        self.urlRequestSession = URLSession(configuration: configuration)
+        self.stringURLSession = URLSession(configuration: configuration)
     }
     
     convenience init() {
@@ -23,9 +25,9 @@ class JSONDownloader {
     typealias JSON = [String: AnyObject]
     
     typealias JSONTaskCompletionHandler = (JSON?, Errors_API_Awakens?) -> Void
-    
+
     func jsonTask(with request: URLRequest, completionHandler completion: @escaping JSONTaskCompletionHandler) -> URLSessionDataTask {
-        let task = session.dataTask(with: request) {data, response, error in
+        let task = urlRequestSession.dataTask(with: request) {data, response, error in
             // Convert to HTTP response
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(nil, .requestFailed(message: "the network request failed"))
@@ -52,4 +54,5 @@ class JSONDownloader {
         }
         return task
     }
+    
 }

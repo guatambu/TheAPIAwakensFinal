@@ -25,8 +25,13 @@ class FindBigAndSmall {
             }*/
             var counter = 0
             if item.length != "unknown" {
-                itemLengthDouble = Double(item.length)!
-                counter += 1
+                if let myDouble = Double(item.length) {
+                    itemLengthDouble = myDouble
+                    counter += 1
+                } else {
+                    print("found 'nil' for \(items[counter])")
+                }
+                
             } else {
                 items.remove(at: counter)
                 print("found 'unknown' as string value at \(items.count) while trying to make the dictionary in the currentLengthDictionaryMaker function")

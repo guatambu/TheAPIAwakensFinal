@@ -18,5 +18,5 @@ enum Errors_API_Awakens: Error {
     case noJSONData(message:String)
     case invalidURL(message: String)
     case jsonParsingFailure(message: String)
-    
+    case noURLStringPResent(message: String)
 }
